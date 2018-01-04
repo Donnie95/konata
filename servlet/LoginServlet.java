@@ -57,16 +57,11 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Connection conn = MyUtils.getStoredConnection(request);
-		String temp = request.getParameter("userName");
-				
-		if ( temp != null && temp.matches("[0-9a-zA-Z_]+") )
-			name = temp;
-		
-		temp = request.getParameter("password");
-		
-		if ( temp != null && temp.matches("[0-9a-zA-Z_]+") )
-			chiave = temp;
-		
+	    
+		if(request.getParameter("userName").matches("[0-9a-zA-Z_]+"))
+		name = request.getParameter("userName");
+		if(request.getParameter("password").matches("[0-9a-zA-Z_]+"))
+		chiave = request.getParameter("password");
 		String rememberMeStr = request.getParameter("rememberMe");
 		boolean remember = "Y".equals(rememberMeStr);
 		

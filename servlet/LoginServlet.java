@@ -57,9 +57,16 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Connection conn = MyUtils.getStoredConnection(request);
+		String temp = request.getParameter("userName");
+				
+		if ( temp != null && temp.matches("[0-9a-zA-Z_]+") )
+			name = temp;
 		
-		name = request.getParameter("userName");
-		chiave = request.getParameter("password");
+		temp = request.getParameter("password");
+		
+		if ( temp != null && temp.matches("[0-9a-zA-Z_]+") )
+			chiave = temp;
+		
 		String rememberMeStr = request.getParameter("rememberMe");
 		boolean remember = "Y".equals(rememberMeStr);
 		

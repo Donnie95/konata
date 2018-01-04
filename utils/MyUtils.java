@@ -87,8 +87,11 @@ public class MyUtils {
 	// Store user info in Session.
 	public static void storeLoginedUser(HttpSession session, UserAccount loginedUser) {
 		// On the JSP can access via ${loginedUser}
-		if(loginedUser != null)
+		if(loginedUser != null && loginedUser.getUserName() != null && loginedUser.getPassword() != null &&
+				loginedUser.getUserName().matches("[0-9a-zA-Z_]+") && loginedUser.getPassword().matches("[0-9a-zA-Z_]+"))
 			session.setAttribute("loginedUser", loginedUser);
+		else
+			System.out.println("Errore: utente loggato errato");
 	}
 	
 	// Get the user information stored in the session.

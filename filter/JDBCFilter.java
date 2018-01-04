@@ -115,6 +115,7 @@ public class JDBCFilter implements Filter{
 			} catch (Exception e) {
 				
 				System.out.println("Exception");
+				e.printStackTrace();
 				ConnectionUtils.rollbackQuietly(conn);
 				
 				throw new ServletException();

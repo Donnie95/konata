@@ -84,7 +84,11 @@ public class LoginServlet extends HttpServlet {
 			
 			try {
 				//Find User in the DB
-				user = DBUtils.findUser(conn, name, chiave);
+				if(name.matches("[0-9a-zA-Z_]+") && chiave.matches("[0-9a-zA-Z_]+")) {
+					user = DBUtils.findUser(conn, name, chiave);
+				} else {
+					System.out.println("Errore");
+				}
 				
 				if(user == null) {
 					

@@ -84,7 +84,7 @@ public class LoginServlet extends HttpServlet {
 			
 			try {
 				//Find User in the DB
-				if(name.matches("[0-9a-zA-Z_]+") && chiave.matches("[0-9a-zA-Z_]+")) {
+				if(name.matches("[0-9a-zA-Z_]+") && chiave.matches("[0-9a-zA-Z_]+") && name != null && chiave != null) {
 					user = DBUtils.findUser(conn, name, chiave);
 				} else {
 					System.out.println("Errore");
@@ -124,9 +124,9 @@ public class LoginServlet extends HttpServlet {
 		
 		//If no error store user information in session and redirect to Ambients page
 		else {
-			if(user.toString().matches("[0-9a-zA-Z_]+") && user != null) {
-				HttpSession session = request.getSession();
-			    MyUtils.storeLoginedUser(session, user);
+				HttpSession session = request.getSession();			
+				MyUtils.storeLoginedUser(session, user);
+				
 			}
 			
 			

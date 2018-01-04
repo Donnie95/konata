@@ -123,7 +123,7 @@ public class MyUtils {
 		
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
-				if(ATT_NAME_NAME.equals(cookie.getName())) {
+				if(ATT_NAME_NAME.equals(cookie.getName()) && cookie.getValue().matches("[0-9a-zA-Z_]+")) {
 					return cookie.getValue();
 				}
 			}

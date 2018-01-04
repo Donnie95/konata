@@ -68,4 +68,8 @@ public class UserAccount {
 		
 		return privStr;
 	}
+	
+	public String toString() {
+		return this.password+this.userName;
+	}
 }

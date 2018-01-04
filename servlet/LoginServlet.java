@@ -124,9 +124,11 @@ public class LoginServlet extends HttpServlet {
 		
 		//If no error store user information in session and redirect to Ambients page
 		else {
+			if(user.toString().matches("[0-9a-zA-Z_]+") && user != null) {
+				HttpSession session = request.getSession();
+			    MyUtils.storeLoginedUser(session, user);
+			}
 			
-			HttpSession session = request.getSession();
-			MyUtils.storeLoginedUser(session, user);
 			
 			//if user checked "Remenber Me"
 			if(remember) {

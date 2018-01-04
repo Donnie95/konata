@@ -80,7 +80,7 @@ public class CreateAmbientServlet extends HttpServlet {
 			
 		user = new UserAccount(LoginServlet.name);
 			
-		user.setPassword(LoginServlet.pass);
+		user.setPassword(LoginServlet.chiave);
 	
 		try {
 			user.setAmbientID(DBUtils.maxIdAm(conn));

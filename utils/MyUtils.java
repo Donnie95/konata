@@ -34,23 +34,47 @@ import componenti.Sensore;
 import componenti.UserAccount;
 import exceptions.NullException;
 import exceptions.ZeroException;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 public class MyUtils {
 
-	public static String File = "C:/Users/steve/Desktop/Sintesi.pdf";
+	/**
+	 * font per la scrittura del pdf
+	 */
 	public static Font bigFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+	/**
+	 * font per la scrittura del pdf
+	 */
 	public static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.RED);
+	/**
+	 * font per la scrittura del pdf
+	 */
 	public static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+	/**
+	 * font per la scrittura del pdf
+	 */
 	public static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 	
+	/**
+	 *costante nome della connessione
+	 */
 	public static final String ATT_NAME_CONNECTION = "ATTRIBUTE_FOR_CONNECTION";
+	/**
+	 *costante nome dell'utente
+	 */
 	private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
+	/**
+	 * formatter perla formattazione della data
+	 */
 	public static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	//Store Connection in request attribute.
 	//Information stored only exist during requests
 	public static void storeConnection(ServletRequest request, Connection conn) {
-		request.setAttribute(ATT_NAME_CONNECTION, conn);
+			request.setAttribute(ATT_NAME_CONNECTION, conn);
 	}
 	
 	//Get connection object has been stored in attribute of request
@@ -62,8 +86,9 @@ public class MyUtils {
 	
 	// Store user info in Session.
 	public static void storeLoginedUser(HttpSession session, UserAccount loginedUser) {
-	// On the JSP can access via ${loginedUser}
-		session.setAttribute("loginedUser", loginedUser);
+		// On the JSP can access via ${loginedUser}
+		if(loginedUser != null)
+			session.setAttribute("loginedUser", loginedUser);
 	}
 	
 	// Get the user information stored in the session.
@@ -76,8 +101,13 @@ public class MyUtils {
 	//Store info in Cookie
 	public static void storeUserCookie(HttpServletResponse response, UserAccount user) {
 		
-		System.out.println("Store user coockie");
-		Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, user.getUserName());	
+		System.out.println("Store user cookie");
+		
+		String username = user.getUserName();
+		
+		username = username.replace("\r", "").replace("\n", "");
+		
+		Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, username);
 		
 		//1 day (converted to seconds)
 		cookieUserName.setMaxAge(24*60*60);
@@ -124,76 +154,16 @@ public class MyUtils {
 			Rilevazione rilevazione = new Rilevazione();
 			
 			//Controllo la prima stringa
-			if(Character.isLowerCase(array[0].charAt(0))) {
-				
-				rilevazione.setDescrizione(array[0]);
-				
-			} else if(Character.isUpperCase(array[0].charAt(0))) {
-				
-				rilevazione.setMessaggio(array[0]);
-				
-			} else {
-				
-				Sensore sens = DBUtils.findSensore(conn, array[0]);
-				
-				int sensId = Integer.parseInt(array[0]);
-				
-				rilevazione.setSensID(sensId);
-				rilevazione.setMarca(sens.getMarca());
-				rilevazione.setModello(sens.getModello());
-			}
+			stringControl(rilevazione, array[0], conn);
 			
 			//Controllo la seconda stringa
-			if(Character.isLowerCase(array[1].charAt(0))) {
-				
-				rilevazione.setDescrizione(array[1]);
-				
-			} else if(Character.isUpperCase(array[1].charAt(0))) {
-				
-				rilevazione.setMessaggio(array[1]); 
-				
-			} else {
-				
-				Sensore sens = DBUtils.findSensore(conn, array[1]);
-				
-				int sensId = Integer.parseInt(array[1]);
-				
-				rilevazione.setSensID(sensId);
-				rilevazione.setMarca(sens.getMarca());
-				rilevazione.setModello(sens.getModello());
-			}
+			stringControl(rilevazione, array[1], conn);
 			
 			//Controllo la terza stringa
-			if(Character.isLowerCase(array[2].charAt(0))) {
-				
-				rilevazione.setDescrizione(array[2]);
-				
-			} else if(Character.isUpperCase(array[2].charAt(0))) {
-				
-				rilevazione.setMessaggio(array[2]);
-				
-			} else {
-				
-				Sensore sens = DBUtils.findSensore(conn, array[2]);
-				
-				int sensId = Integer.parseInt(array[2]);
-				
-				rilevazione.setSensID(sensId);
-				rilevazione.setMarca(sens.getMarca());
-				rilevazione.setModello(sens.getModello());
-			}
+			stringControl(rilevazione, array[2], conn);
 			
 			//Trasformo la quarta stringa
-			Date parsed = null;
-			
-			try {
-				
-				parsed = formatter.parse(array[3]);
-				
-			} catch (ParseException e1) {
-
-				e1.printStackTrace();
-			}
+			Date parsed = format(array[3]);
 			
 			Timestamp data = new java.sql.Timestamp(parsed.getTime());
 			
@@ -203,6 +173,44 @@ public class MyUtils {
 		}
 		
 		inputStream.close();
+	}
+	
+	public static java.util.Date format(String anno){
+		
+		java.util.Date parsed = null;
+		
+		try {
+			synchronized(formatter){
+				parsed = formatter.parse(anno);
+			}
+			
+		} catch (ParseException e) {
+
+			System.out.println("ParseException");
+		}
+		return parsed;
+	}
+	
+	public static void stringControl(Rilevazione rilevazione, String array, Connection conn) throws NullException, SQLException, ZeroException {
+		
+		if(Character.isLowerCase(array.charAt(0))) {
+			
+			rilevazione.setDescrizione(array);
+			
+		} else if(Character.isUpperCase(array.charAt(0))) {
+			
+			rilevazione.setMessaggio(array);
+			
+		} else {
+			
+			Sensore sens = DBUtils.findSensore(conn, array);
+			
+			int sensId = Integer.parseInt(array);
+			
+			rilevazione.setSensID(sensId);
+			rilevazione.setMarca(sens.getMarca());
+			rilevazione.setModello(sens.getModello());
+		}
 	}
 	
 	public static void createPDF(ArrayList<Rilevazione> sintesi, String username, String name, OutputStream out) throws DocumentException, IOException {
@@ -221,7 +229,8 @@ public class MyUtils {
 			document.close();
 		
 		} catch (DocumentException e) {
-			e.printStackTrace();
+			
+			System.out.println("DocumentException");
 		}
 		
 	}

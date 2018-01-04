@@ -12,25 +12,39 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import componenti.Ambiente;
 import componenti.Sensore;
 import componenti.UserAccount;
 import exceptions.NullException;
 import exceptions.ZeroException;
 import utils.*;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 @WebServlet(urlPatterns = { "/sensorList" })
 public class SensorListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static String id;
-	
-	public static int idInt;
-	
-	public static String way;
-	
-	public static int status;
+	/**
+	 * id del sensore
+	 */
+	public static String id = null;
+	/**
+	 * id del sensore intero
+	 */
+	public static int idInt = 0;
+	/**
+	 * indicatore per la scelta della vista collegata
+	 * al pulsante premuto
+	 */
+	public static String way = null;
+	/**
+	 * indicatore per scegliere la vista 
+	 * dipendentemente dall'utente loggato
+	 */
+	public static int status = 0;
 		
 	public SensorListServlet() {
 		super();
@@ -54,17 +68,17 @@ public class SensorListServlet extends HttpServlet {
 			
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			errorString = e.getMessage();
 			
 		} catch (ZeroException e) {
 			
-			e.printStackTrace();
+			System.out.println("ZeroException");
 			errorString = e.getMessage();
 			
 		} catch (NullException e) {
 			
-			e.printStackTrace();
+			System.out.println("NullException");
 			errorString = e.getMessage();
 		}
 		
@@ -113,7 +127,7 @@ public class SensorListServlet extends HttpServlet {
 				sens.setId(idInt);
 			} catch (ZeroException e) {
 
-				e.printStackTrace();
+				System.out.println("ZeroException");
 			}
 			
 			request.setAttribute("errorString", errorString);
@@ -125,6 +139,7 @@ public class SensorListServlet extends HttpServlet {
 		} 
 		
 		else {
+			
 			if(wayInt == 0)
 				response.sendRedirect(request.getContextPath() + "/relevationList");
 			

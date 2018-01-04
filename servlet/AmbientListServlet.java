@@ -17,21 +17,38 @@ import componenti.UserAccount;
 import exceptions.NullException;
 import exceptions.ZeroException;
 import utils.*;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 @WebServlet(urlPatterns = { "/ambientList" })
 public class AmbientListServlet extends HttpServlet {
 	
-	public static String id;
-
-	public static String way;
-	
-	public static int idInt;
-	
-	public static int status;
-	
 	private static final long serialVersionUID = 1L;
-	
-	static ArrayList<Ambiente> ambienti;
+	/**
+	 * id dell'ambiente
+	 */
+	public static String id = null;
+	/**
+	 * indicatore per la scelta della vista collegata
+	 * al pulsante premuto
+	 */
+	public static String way = null;
+	/**
+	 * id intero dell'ambiente
+	 */
+	public static int idInt = 0;
+	/**
+	 * indicatore per scegliere la vista 
+	 * dipendentemente dall'utente loggato
+	 */
+	public static int status = 0;
+	/**
+	 * arraylist degli ambienti da visualizzare 
+	 * nella pagina 
+	 */
+	static ArrayList<Ambiente> ambienti = null;
 
 	public AmbientListServlet() {
 		super();
@@ -55,17 +72,17 @@ public class AmbientListServlet extends HttpServlet {
 
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			errorString = e.getMessage();
 			
 		} catch (ZeroException e) {
 			
-			e.printStackTrace();
+			System.out.println("ZeroException");
 			errorString = e.getMessage();
 			
 		} catch (NullException e) {
 			
-			e.printStackTrace();
+			System.out.println("NullException");
 			errorString = e.getMessage();
 		}
 		
@@ -115,7 +132,7 @@ public class AmbientListServlet extends HttpServlet {
 				
 			} catch (ZeroException e) {
 
-				e.printStackTrace();
+				System.out.println("ZeroException");
 			}
 			
 			request.setAttribute("errorString", errorString);

@@ -67,13 +67,7 @@ public class LoginServlet extends HttpServlet {
 		boolean hasError = false;
 		String errorString = null;
 		
-<<<<<<< .mine
-		String path = "C:\\Users\\Donnie\\Dropbox\\KonataFriends\\Rilevazioni.txt";
-||||||| .r20
-		String path = "C:\\Users\\steve\\Desktop\\Rilevazioni.txt";
-=======
 		ServletContext cs = getServletContext();
->>>>>>> .r23
 		
 		String path = cs.getRealPath("/") + "/WEB-INF/Rilevazioni.txt";
 		

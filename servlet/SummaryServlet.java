@@ -16,15 +16,25 @@ import componenti.Rilevazione;
 import exceptions.NullException;
 import exceptions.ZeroException;
 import utils.*;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 @WebServlet(urlPatterns = { "/summary" })
 public class SummaryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	public static ArrayList<Rilevazione> sintesi;
-	
-	public static String way;
+	/**
+	 * Arraylist delle silevazioni della sintesi 
+	 */
+	public static ArrayList<Rilevazione> sintesi = null;
+	/**
+	 * indicatore per la scelta della vista collegata
+	 * al pulsante premuto
+	 */
+	public static String way = null;
 
 	public SummaryServlet() {
 		super();
@@ -44,17 +54,17 @@ public class SummaryServlet extends HttpServlet {
 			
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			errorString = e.getMessage();
 			
 		} catch (ZeroException e) {
 			
-			e.printStackTrace();
+			System.out.println("ZeroException");
 			errorString = e.getMessage();
 			
 		} catch (NullException e) {
 			
-			e.printStackTrace();
+			System.out.println("NullException");
 			errorString = e.getMessage();
 		}
 		

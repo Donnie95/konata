@@ -59,9 +59,17 @@ public class CreatePDFServlet extends HttpServlet {
 		try {
 			amb = DBUtils.findAmbiente(conn, AmbientListServlet.id);
 			
-		} catch (SQLException | ZeroException | NullException e1) {
+		} catch (SQLException e) {
 			
-			e1.printStackTrace();
+			System.out.println("SQLException");
+			
+		} catch (ZeroException e) {
+		
+			System.out.println("ZeroException");
+			
+		} catch (NullException e) {
+			
+			System.out.println("NullException");
 		}
 		
 		try {
@@ -70,7 +78,7 @@ public class CreatePDFServlet extends HttpServlet {
 			
 		} catch (DocumentException e) {
 			
-			e.printStackTrace();
+			System.out.println("DocumentException");
 			errorString = e.getMessage();
 		}
 		

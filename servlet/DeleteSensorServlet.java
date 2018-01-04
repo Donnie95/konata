@@ -51,9 +51,17 @@ public class DeleteSensorServlet extends HttpServlet {
 		try {
 			amb = DBUtils.findAmbiente(conn, AmbientListServlet.id);
 			
-		} catch (SQLException | ZeroException | NullException e) {
+		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
+			
+		} catch (ZeroException e) {
+			
+			System.out.println("ZeroException");
+			
+		} catch (NullException e) {
+			
+			System.out.println("NullException");
 		}
 		
 		String errorString = null;
@@ -66,7 +74,7 @@ public class DeleteSensorServlet extends HttpServlet {
 			
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			
 			errorString = e.getMessage();
 		}

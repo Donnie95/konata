@@ -1,13 +1,11 @@
 package servlet;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,22 +17,12 @@ import componenti.UserAccount;
 import exceptions.NullException;
 import exceptions.ZeroException;
 import utils.*;
-/**
- * 
- * @author gandalf
- *
- */
+
 @WebServlet(urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
 	
-	/**
-	 * nome utente
-	 */
-	public static String name = null;
-	/**
-	 * password utente
-	 */
-	public static String password = null;
+	public static String name;
+	public static String password;
 
 	private static final long serialVersionUID = 1L;
 
@@ -67,19 +55,18 @@ public class LoginServlet extends HttpServlet {
 		boolean hasError = false;
 		String errorString = null;
 		
-<<<<<<< .mine
 		String path = "C:\\Users\\Donnie\\Dropbox\\KonataFriends\\Rilevazioni.txt";
-||||||| .r20
-		String path = "C:\\Users\\steve\\Desktop\\Rilevazioni.txt";
-=======
-		ServletContext cs = getServletContext();
->>>>>>> .r23
-		
-		String path = cs.getRealPath("/") + "/WEB-INF/Rilevazioni.txt";
 		
 		File rilevazioniF = new File(path);
 		
-		obtainRelev(rilevazioniF, conn);
+		try {
+			
+			MyUtils.obtainRelev(rilevazioniF, conn);
+			
+		} catch (NullException | SQLException | ZeroException e1) {
+			
+			e1.printStackTrace();
+		}
 		
 		if(name == null || password == null || name.length() == 0 || password.length() == 0) {
 			
@@ -100,7 +87,7 @@ public class LoginServlet extends HttpServlet {
 			
 			} catch(SQLException e) {
 				
-				System.out.println("SQLException");
+				e.printStackTrace();
 				hasError = true;
 				errorString = e.getMessage();
 			}
@@ -141,26 +128,6 @@ public class LoginServlet extends HttpServlet {
 			
 			//Redirect to Ambient page
 			response.sendRedirect(request.getContextPath() + "/ambientList");
-		}
-	}
-	
-	public void obtainRelev(File file, Connection conn) throws FileNotFoundException {
-		
-		try {
-			
-			MyUtils.obtainRelev(file, conn);
-			
-		} catch (NullException e) {
-			
-			System.out.println("NullException");
-			
-		} catch (SQLException e) {
-			
-			System.out.println("SQLException");
-			
-		} catch (ZeroException e) {
-			
-			System.out.println("ZeroException");
 		}
 	}
 }

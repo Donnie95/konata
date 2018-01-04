@@ -1,5 +1,9 @@
 package exceptions;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 public class NullException extends Exception {
 
 	/**

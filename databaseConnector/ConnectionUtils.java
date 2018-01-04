@@ -2,7 +2,11 @@ package databaseConnector;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 public class ConnectionUtils {
 
 	public static Connection getConnection() throws ClassNotFoundException, SQLException {

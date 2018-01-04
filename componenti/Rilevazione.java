@@ -28,15 +28,25 @@ public class Rilevazione {
 	 * Descrizione del Messaggio della Rilevazione
 	 */
 	public String descrizione;
-	
+	/**
+	 * Data della rilevazione
+	 */
 	public Timestamp data;
-	
+	/**
+	 * id del sensore
+	 */
 	public int sensID;
-	
+	/**
+	 * nome dell'ambiente della rilevazione
+	 */
 	public String nomeA;
-	
+	/**
+	 * marca del sensore della rilevazione
+	 */
 	public String marca;
-	
+	/**
+	 * modello del sensore della rilevazione
+	 */
 	public String modello;
 	
 	public Timestamp getData() {

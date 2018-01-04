@@ -53,15 +53,16 @@ public class EditAmbientServlet extends HttpServlet {
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			errorString = e.getMessage();
 			
 		} catch (ZeroException e) {
 			
-			e.printStackTrace();
+			System.out.println("ZeroException");
+			
 		} catch (NullException e) {
 			
-			e.printStackTrace();
+			System.out.println("NullException");
 		}
 		
 		/*if no error, the ambient does not exist to edit.
@@ -103,17 +104,22 @@ public class EditAmbientServlet extends HttpServlet {
 			
 			ambient.setId(AmbientListServlet.idInt);
 			
-		} catch (ZeroException | NullException e) {
+		} catch (ZeroException e) {
 
-			e.printStackTrace();
+			System.out.println("ZeroException");
+			
+		} catch (NullException e) {
+			
+			System.out.println("NullException");
 		}
 		
 		try {
 			
 			DBUtils.updateAmbient(conn, ambient);
+			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			
 			errorString = e.getMessage();
 		}

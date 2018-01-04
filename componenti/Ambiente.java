@@ -216,7 +216,7 @@ public class Ambiente implements Iterable<Sensore> {
 	 * @throws NullException
 	 *             Verifica che la stringa inserita non sia vuota
 	 */
-	private void aggiungiSensore(Sensore sensore) throws NullException {
+	public void aggiungiSensore(Sensore sensore) throws NullException {
 		if (sensore == null)
 			throw new NullException();
 
@@ -232,7 +232,7 @@ public class Ambiente implements Iterable<Sensore> {
 	 * @throws NullException
 	 *             Verifica che la stringa inserita non sia vuota
 	 */
-	private void rimuoviSensore(Sensore sensore) throws NullException {
+	public void rimuoviSensore(Sensore sensore) throws NullException {
 		if (sensore == null)
 			throw new NullException();
 

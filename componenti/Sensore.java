@@ -40,7 +40,9 @@ public class Sensore implements Iterable<Rilevazione> {
 	 * Anno di Produzione
 	 */
 	public Date anno;
-	
+	/**
+	 * id ambiente del sensore
+	 */
 	public int ambientId;
 
 
@@ -254,7 +256,7 @@ public class Sensore implements Iterable<Rilevazione> {
 	 * @throws NullException
 	 *             Verifica che la stringa inserita non sia vuota
 	 */
-	private void aggiungiRilevazione(Rilevazione rilevazione) throws NullException {
+	public void aggiungiRilevazione(Rilevazione rilevazione) throws NullException {
 		if (rilevazione == null)
 			throw new NullException();
 

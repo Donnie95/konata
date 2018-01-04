@@ -52,7 +52,7 @@ public class DeleteUserServlet extends HttpServlet {
 			
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			errorString = e.getMessage();
 		}
 		

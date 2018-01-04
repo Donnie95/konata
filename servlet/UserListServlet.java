@@ -16,20 +16,30 @@ import componenti.UserAccount;
 import exceptions.NullException;
 import exceptions.ZeroException;
 import utils.*;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 @WebServlet(urlPatterns = { "/userList" })
 public class UserListServlet extends HttpServlet {
 	
-	public static String userName;
-
-	public static String way;
-	
-	public static int idInt;
-	
-	public static int status;
-	
 	private static final long serialVersionUID = 1L;
-
+	/**
+	 * username
+	 */
+	public static String userName = null;
+	/**
+	 * indicatore per la scelta della vista collegata
+	 * al pulsante premuto
+	 */
+	public static String way = null;
+	/**
+	 * indicatore per scegliere la vista 
+	 * dipendentemente dall'utente loggato
+	 */
+	public static int status = 0;
+	
 	public UserListServlet() {
 		super();
 	}
@@ -48,17 +58,17 @@ public class UserListServlet extends HttpServlet {
 
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
+			System.out.println("SQLException");
 			errorString = e.getMessage();
 			
 		} catch (ZeroException e) {
 			
-			e.printStackTrace();
+			System.out.println("ZeroException");
 			errorString = e.getMessage();
 			
 		} catch (NullException e) {
 			
-			e.printStackTrace();
+			System.out.println("NullException");
 			errorString = e.getMessage();
 		}
 		

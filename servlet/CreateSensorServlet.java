@@ -55,15 +55,7 @@ public class CreateSensorServlet extends HttpServlet {
 
 		Connection conn = MyUtils.getStoredConnection(request);
 		
-		Ambiente amb = null;
-		
-		try {
-			amb = DBUtils.findAmbiente(conn, AmbientListServlet.id);
-			
-		} catch (SQLException | ZeroException | NullException e) {
-			
-			e.printStackTrace();
-		}
+		Ambiente amb = findAmbiente(conn);
 		
 		Sensore sensor = null;
 		
@@ -72,16 +64,7 @@ public class CreateSensorServlet extends HttpServlet {
 		String tipo = request.getParameter("selSens");
 		String annoStr = request.getParameter("anno");
 		
-		java.util.Date parsed = null;
-
-		try {
-			
-			parsed = formatter.parse(annoStr);
-			
-		} catch (ParseException e1) {
-
-			e1.printStackTrace();
-		}
+		java.util.Date parsed = format(annoStr);
 		
 		java.sql.Date anno = new java.sql.Date(parsed.getTime());
 
@@ -90,7 +73,7 @@ public class CreateSensorServlet extends HttpServlet {
 			
 		} catch (NullException e) {
 
-			e.printStackTrace();
+			System.out.println("NullException");
 		}
 		
 		String errorString = null;
@@ -106,8 +89,9 @@ public class CreateSensorServlet extends HttpServlet {
 				
 			} catch (SQLException e) {
 				
-				e.printStackTrace();
+				System.out.println("SQLException");
 				errorString = e.getMessage();
+			}
 		}
 		
 		// Store infomation to request attribute, before forward to views.
@@ -126,5 +110,42 @@ public class CreateSensorServlet extends HttpServlet {
 		response.sendRedirect(request.getContextPath() + "/sensorList");
 		}	
 	}
+	
+	public Ambiente findAmbiente(Connection conn) {
+		
+		Ambiente amb = null;
+		
+		try {
+			amb = DBUtils.findAmbiente(conn, AmbientListServlet.id);
+			
+		} catch (SQLException e) {
+			
+			System.out.println("SQLException");
+			
+		} catch (ZeroException e) {
+			
+			System.out.println("ZeroException");
+			
+		} catch (NullException e) {
+			
+			System.out.println("NullException");
+		}
+		return amb;
+	}
+	
+	public java.util.Date format(String anno){
+		
+		java.util.Date parsed = null;
+		
+		try {
+			synchronized(formatter){
+				parsed = formatter.parse(anno);
+			}
+			
+		} catch (ParseException e) {
+
+			System.out.println("ParseException");
+		}
+		return parsed;
 	}
 }

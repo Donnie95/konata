@@ -17,7 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import databaseConnector.ConnectionUtils;
 import utils.MyUtils;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 @WebFilter(filterName = "jdbcFilter", urlPatterns = { "/*" })
 public class JDBCFilter implements Filter{
 	
@@ -110,7 +114,7 @@ public class JDBCFilter implements Filter{
 				conn.commit();
 			} catch (Exception e) {
 				
-				e.printStackTrace();
+				System.out.println("Exception");
 				ConnectionUtils.rollbackQuietly(conn);
 				
 				throw new ServletException();

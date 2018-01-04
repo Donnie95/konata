@@ -72,9 +72,11 @@ public class CreateUserServlet extends HttpServlet {
 		if (errorString == null) {
 			try {
 				DBUtils.insertUser(conn, user);
+				
 				} catch (SQLException e) {
-				e.printStackTrace();
-				errorString = e.getMessage();
+					
+					System.out.println("SQLException");
+					errorString = e.getMessage();
 			}
 		}
 		

@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import componenti.Ambiente;
 import componenti.UserAccount;
 import exceptions.NullException;
-import exceptions.ZeroException;
 import utils.DBUtils;
 import utils.MyUtils;
 
@@ -64,7 +63,7 @@ public class CreateAmbientServlet extends HttpServlet {
 			
 		} catch (NullException e) {
 
-			e.printStackTrace();
+			System.out.println("NullExeption");
 		}
 		
 		if (errorString == null) {
@@ -73,7 +72,8 @@ public class CreateAmbientServlet extends HttpServlet {
 				DBUtils.insertAmbient(conn, ambient);
 				
 			} catch (SQLException e) {
-				e.printStackTrace();
+
+				System.out.println("SQLException");
 				errorString = e.getMessage();
 			}
 		}	
@@ -85,75 +85,21 @@ public class CreateAmbientServlet extends HttpServlet {
 		try {
 			user.setAmbientID(DBUtils.maxIdAm(conn));
 			
-		} catch (SQLException e1) {
+		} catch (SQLException e) {
 			
-			e1.printStackTrace();
+			System.out.println("SQLException");
 		}
 		
 		if (errorString == null) {
 			
 			//If user not logged like superUser
-			if(LoginServlet.name.equals("admin")) {
-				
-				user.setPrivilegi(2);
-				
-				UserAccount admin = null;
-				
-				System.out.println(LoginServlet.name);
-				
-				try {
-					admin = DBUtils.findUser(conn, "admin");
-					
-					
-				} catch (SQLException e) {
-				
-					e.printStackTrace();
-				}
-			
-				admin.setAmbientID(user.getAmbientID());
-				
-				try {
-					DBUtils.insertUser(conn, admin);
-					
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
+			addUserNotAdmin(user, conn);
 
 			}
-			else {
+		else {
 				
-				try {
-					DBUtils.insertUser(conn, user);
-					
-					System.out.println(LoginServlet.name);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-					errorString = e.getMessage();
-				}
-			
-				//Insert ambient to user admin
-				UserAccount admin = null;
-			
-				try {
-					admin = DBUtils.findUser(conn, "admin");
-					
-				} catch (SQLException e) {
-				
-					e.printStackTrace();
-				}
-			
-				admin.setAmbientID(user.getAmbientID());
-				
-				try {
-					DBUtils.insertUser(conn, admin);
-					
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
-			}
+			//If user logged like superUser
+			addUserAdmin(user, conn, errorString);	
 		}
 		
 		// Store infomation to request attribute, before forward to views.
@@ -171,5 +117,70 @@ public class CreateAmbientServlet extends HttpServlet {
 		else {
 			response.sendRedirect(request.getContextPath() + "/ambientList");
 		}	
+	}
+	
+	public void addUserNotAdmin(UserAccount user, Connection conn) {
+
+		if(LoginServlet.name.equals("admin")) {
+			
+			user.setPrivilegi(2);
+			
+			UserAccount admin = null;
+			
+			System.out.println(LoginServlet.name);
+			
+			try {
+				admin = DBUtils.findUser(conn, "admin");
+				
+				
+			} catch (SQLException e) {
+			
+				System.out.println("SQLException");
+			}
+		
+			admin.setAmbientID(user.getAmbientID());
+			
+			try {
+				DBUtils.insertUser(conn, admin);
+				
+			} catch (SQLException e) {
+				
+				System.out.println("SQLException");
+			}
+		}
+	}
+	
+	public void addUserAdmin(UserAccount user, Connection conn, String errorString) {
+		try {
+			DBUtils.insertUser(conn, user);
+			
+			System.out.println(LoginServlet.name);
+			
+		} catch (SQLException e) {
+			
+			System.out.println("SQLException");
+			errorString = e.getMessage();
+		}
+	
+		//Insert ambient to user admin
+		UserAccount admin = null;
+	
+		try {
+			admin = DBUtils.findUser(conn, "admin");
+			
+		} catch (SQLException e) {
+		
+			System.out.println("SQLException");
+		}
+	
+		admin.setAmbientID(user.getAmbientID());
+		
+		try {
+			DBUtils.insertUser(conn, admin);
+			
+		} catch (SQLException e) {
+			
+			System.out.println("SQLException");
+		}
 	}
 }

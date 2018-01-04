@@ -17,7 +17,11 @@ import javax.servlet.annotation.WebFilter;
 
 //import databaseConnector.ConnectionUtils;
 //import utils.MyUtils;
-
+/**
+ * 
+ * @author gandalf
+ *
+ */
 @WebFilter(filterName = "encodingFilter", urlPatterns = { "/*" })
 public class EncodingFilter implements Filter {
 

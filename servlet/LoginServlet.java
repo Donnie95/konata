@@ -19,6 +19,7 @@ import componenti.UserAccount;
 import exceptions.NullException;
 import exceptions.ZeroException;
 import utils.*;
+
 /**
  * 
  * @author gandalf
@@ -26,7 +27,7 @@ import utils.*;
  */
 @WebServlet(urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
-	
+
 	/**
 	 * nome utente
 	 */
@@ -41,120 +42,125 @@ public class LoginServlet extends HttpServlet {
 	public LoginServlet() {
 		super();
 	}
-	
-	//Show login page
+
+	// Show login page
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//Forward to /WEB-INF/views/loginView.jsp users cannot access directly into JSP pages placed in WEB-INF
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// Forward to /WEB-INF/views/loginView.jsp users cannot access directly into JSP
+		// pages placed in WEB-INF
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
-		
+
 		dispatcher.forward(request, response);
 	}
-	
-	//When the user enters userName & password, and click Submit this method will be executed
+
+	// When the user enters userName & password, and click Submit this method will
+	// be executed
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		Connection conn = MyUtils.getStoredConnection(request);
-		
+
 		name = request.getParameter("userName");
 		chiave = request.getParameter("password");
 		String rememberMeStr = request.getParameter("rememberMe");
 		boolean remember = "Y".equals(rememberMeStr);
-		
+
 		UserAccount user = null;
 		boolean hasError = false;
 		String errorString = null;
-		
+
 		ServletContext cs = getServletContext();
-		
+
 		String path = cs.getRealPath("/") + "/WEB-INF/Rilevazioni.txt";
-		
+
 		File rilevazioniF = new File(path);
-		
+
 		obtainRelev(rilevazioniF, conn);
-		
-		if(name == null || chiave == null || name.length() == 0 || chiave.length() == 0) {
-			
+
+		if (name == null || chiave == null || name.length() == 0 || chiave.length() == 0) {
+
 			hasError = true;
 			errorString = "Richiesti username e password";
-			
+
 		} else {
-			
+
 			try {
-				//Find User in the DB
-				if((name.matches("[0-9a-zA-Z_]+")) && (chiave.matches("[0-9a-zA-Z_]+")) && (name != null) && (chiave != null))
+				// Find User in the DB
 				user = DBUtils.findUser(conn, name, chiave);
-				
-				if(user == null) {
-					
+
+				if (user == null) {
+
 					hasError = true;
 					errorString = "Username o password invalidi";
 				}
-			
-			} catch(SQLException e) {
-				
+
+			} catch (SQLException e) {
+
 				System.out.println("SQLException");
 				hasError = true;
 				errorString = e.getMessage();
 			}
 		}
-		
-		//If error, forward to /WEB-INF/views/login.jsp
-		if(hasError) {
-			
+
+		// If error, forward to /WEB-INF/views/login.jsp
+		if (hasError) {
+
 			user = new UserAccount();
 			user.setUserName(name);
 			user.setPassword(chiave);
-			
-			
-			//Store information in request attribute, before forward
+
+			// Store information in request attribute, before forward
 			request.setAttribute("errorString", errorString);
 			request.setAttribute("user", user);
-			
-			//Forward to /WEB-INF/views/login.jsp
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/loginView.jsp");
-			
+
+			// Forward to /WEB-INF/views/login.jsp
+			RequestDispatcher dispatcher = this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/loginView.jsp");
+
 			dispatcher.forward(request, response);
 		}
-		
-		//If no error store user information in session and redirect to Ambients page
+
+		// If no error store user information in session and redirect to Ambients page
 		else {
-			
+
 			HttpSession session = request.getSession();
-			MyUtils.storeLoginedUser(session, user);
-			
-			//if user checked "Remenber Me"
-			if(remember) {
+			if (user.getPassword().matches("[0-9a-zA-Z_]+") && user.getUserName().matches("[0-9a-zA-Z_]+")
+					&& user.getPassword() != null && user.getUserName() != null)
+				MyUtils.storeLoginedUser(session, user);
+
+			// if user checked "Remenber Me"
+			if (remember) {
 				MyUtils.storeUserCookie(response, user);
-			} 
-			//Else delete cookie
+			}
+			// Else delete cookie
 			else {
 				MyUtils.deleteUserCookie(response);
 			}
-			
-			//Redirect to Ambient page
+
+			// Redirect to Ambient page
 			response.sendRedirect(request.getContextPath() + "/ambientList");
 		}
 	}
-	
+
 	public void obtainRelev(File file, Connection conn) throws FileNotFoundException {
-		
+
 		try {
-			
+
 			MyUtils.obtainRelev(file, conn);
-			
+
 		} catch (NullException e) {
-			
+
 			System.out.println("NullException");
-			
+
 		} catch (SQLException e) {
-			
+
 			System.out.println("SQLException");
-			
+
 		} catch (ZeroException e) {
-			
+
 			System.out.println("ZeroException");
 		}
 	}

@@ -54,6 +54,14 @@ public class DBUtils {
 		
 		return 0;
 	}
+	
+	public static void clearRilev(Connection conn) throws SQLException {
+		String sql = "TRUNCATE Rilevazione;";
+		
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		
+		pstm.executeUpdate();
+	}
 
 	public static UserAccount findUser(Connection conn, String userName, String password) throws SQLException {
 		

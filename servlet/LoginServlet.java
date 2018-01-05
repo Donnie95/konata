@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Connection conn = MyUtils.getStoredConnection(request);
-	
+		
 		name = request.getParameter("userName");
 		chiave = request.getParameter("password");
 		String rememberMeStr = request.getParameter("rememberMe");
@@ -84,11 +84,7 @@ public class LoginServlet extends HttpServlet {
 			
 			try {
 				//Find User in the DB
-				if(name.matches("[0-9a-zA-Z_]+") && chiave.matches("[0-9a-zA-Z_]+") && name != null && chiave != null) {
-					user = DBUtils.findUser(conn, name, chiave);
-				} else {
-					System.out.println("Errore");
-				}
+				user = DBUtils.findUser(conn, name, chiave);
 				
 				if(user == null) {
 					
@@ -124,10 +120,9 @@ public class LoginServlet extends HttpServlet {
 		
 		//If no error store user information in session and redirect to Ambients page
 		else {
-				HttpSession session = request.getSession();			
-				MyUtils.storeLoginedUser(session, user);
-			}
 			
+			HttpSession session = request.getSession();
+			MyUtils.storeLoginedUser(session, user);
 			
 			//if user checked "Remenber Me"
 			if(remember) {

@@ -87,10 +87,10 @@ public class MyUtils {
 	// Store user info in Session.
 	public static void storeLoginedUser(HttpSession session, UserAccount loginedUser) {
 		// On the JSP can access via ${loginedUser}
-		if(loginedUser != null && loginedUser.toString().matches("[0-9a-zA-Z_]+") )
+		if(loginedUser != null)
 			session.setAttribute("loginedUser", loginedUser);
 		else
-			System.out.println("Errore: utente loggato errato");
+			System.out.println();
 	}
 	
 	// Get the user information stored in the session.
@@ -122,7 +122,7 @@ public class MyUtils {
 		
 		if(cookies != null) {
 			for(Cookie cookie : cookies) {
-				if(ATT_NAME_NAME.equals(cookie.getName()) ) {
+				if(ATT_NAME_NAME.equals(cookie.getName())) {
 					return cookie.getValue();
 				}
 			}

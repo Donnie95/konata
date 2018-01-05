@@ -112,13 +112,9 @@ public class SensorListServlet extends HttpServlet {
 		
 		way = request.getParameter("way");
 		id = request.getParameter("sensID");
-		String temp= null;
 		
-		
-		idInt = Integer.parseInt(id);		
-		int wayInt = Integer.parseInt(way);			
-		
-		
+		idInt = Integer.parseInt(id);
+		int wayInt = Integer.parseInt(way);
 		
 		Sensore sens = null;
 		String errorString = null;
@@ -144,28 +140,14 @@ public class SensorListServlet extends HttpServlet {
 		
 		else {
 			
-			if(wayInt == 0) {
-				temp="/relevationList";
-				if(temp!=null) {
-					response.sendRedirect(request.getContextPath() + temp);
-				}
-				
-			}				
+			if(wayInt == 0) 
+				response.sendRedirect(request.getContextPath() + "/relevationList");
 			
-			if(wayInt == 1) {
-				temp="/editSensor";
-				if(temp!=null) {
-				response.sendRedirect(request.getContextPath() + temp);
-				}
-			}
-				
-			if(wayInt == 2) {
-				temp="/deleteSensor";			
-				if(temp!=null) {
-				response.sendRedirect(request.getContextPath() + temp);			
-				}
-			}
-				
+			if(wayInt == 1) 
+				response.sendRedirect(request.getContextPath() + "/editSensor");
+			
+			if(wayInt == 2) 
+				response.sendRedirect(request.getContextPath() + "/deleteSensor");
 		}		
 	}	
 }

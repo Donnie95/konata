@@ -126,7 +126,6 @@ public class LoginServlet extends HttpServlet {
 		else {
 				HttpSession session = request.getSession();			
 				MyUtils.storeLoginedUser(session, user);
-				
 			}
 			
 			

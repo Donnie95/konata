@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html"
     pageEncoding="UTF-8"%>
 <%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html> 
+<!DOCTYPE html>
+ 
 <html>
+<%--loginView --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Login</title>

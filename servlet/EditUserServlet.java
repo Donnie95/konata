@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.esapi.errors.AccessControlException;
+import org.owasp.esapi.reference.DefaultHTTPUtilities;
+
 import componenti.UserAccount;
 import utils.DBUtils;
 import utils.MyUtils;
@@ -61,7 +64,10 @@ public class EditUserServlet extends HttpServlet {
 		/*if no error, the ambient does not exist to edit.
 		Redirect to ambientList page*/
 		if(errorString != null && user == null) {
-			response.sendRedirect(request.getServletPath() + "/userList");
+			DefaultHTTPUtilities utilities = new DefaultHTTPUtilities();
+			String path = request.getContextPath() + "/userList";
+			sendRedirect(utilities, path);
+			//response.sendRedirect(path);
 			return;
 		}
 		
@@ -126,7 +132,19 @@ public class EditUserServlet extends HttpServlet {
 		
 		//If everything nice, redirect to the ambient listing page
 		else {
-			response.sendRedirect(request.getContextPath() + "/userList");
+			DefaultHTTPUtilities utilities = new DefaultHTTPUtilities();
+			String path = request.getContextPath() + "/userList";
+			sendRedirect(utilities, path);
+			//response.sendRedirect(path);
+		}
+	}
+	
+	public void sendRedirect(DefaultHTTPUtilities utilities, String path) throws IOException {
+		try {
+			utilities.sendRedirect(path);
+		} catch (AccessControlException e) {
+			
+			System.out.println("Errore");
 		}
 	}
 }

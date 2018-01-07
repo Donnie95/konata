@@ -4,6 +4,7 @@
 <!DOCTYPE html>  
 
 <html>
+<%--AmbientListAdmin --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Lista Ambienti</title>

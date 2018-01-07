@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.esapi.errors.AccessControlException;
+import org.owasp.esapi.reference.DefaultHTTPUtilities;
+
 import componenti.Sensore;
 import componenti.UserAccount;
 import exceptions.NullException;
@@ -121,7 +124,6 @@ public class SensorListServlet extends HttpServlet {
 		boolean hasError = false;
 		
 		if(hasError) {
-			
 			sens = new Sensore();
 			try {
 				sens.setId(idInt);
@@ -139,15 +141,31 @@ public class SensorListServlet extends HttpServlet {
 		} 
 		
 		else {
+			DefaultHTTPUtilities utilities = new DefaultHTTPUtilities();
 			
-			if(wayInt == 0) 
-				response.sendRedirect(request.getContextPath() + "/relevationList");
+			if(wayInt == 0) {
+				String path = request.getContextPath() + "/relevationList";
+				sendRedirect(utilities, path);
+				//response.sendRedirect(path);
+			}
+			if(wayInt == 1) {
+				String path = request.getContextPath() + "/editSensor";
+				sendRedirect(utilities, path);
+				//response.sendRedirect(path);
+			}
+			if(wayInt == 2) {
+				String path = request.getContextPath() + "/deleteSensor";
+				sendRedirect(utilities, path);
+				//response.sendRedirect(path);
+			}
+		}
+	}
+	public void sendRedirect(DefaultHTTPUtilities utilities, String path) throws IOException {
+		try {
+			utilities.sendRedirect(path);
+		} catch (AccessControlException e) {
 			
-			if(wayInt == 1) 
-				response.sendRedirect(request.getContextPath() + "/editSensor");
-			
-			if(wayInt == 2) 
-				response.sendRedirect(request.getContextPath() + "/deleteSensor");
-		}		
-	}	
+			System.out.println("Errore");
+		}
+	}
 }

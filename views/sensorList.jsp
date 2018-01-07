@@ -4,6 +4,7 @@
 <!DOCTYPE html>  
 
 <html>
+<%--sensorList --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Lista Sensori</title>

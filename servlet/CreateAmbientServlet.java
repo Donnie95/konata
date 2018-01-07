@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.esapi.errors.AccessControlException;
+import org.owasp.esapi.reference.DefaultHTTPUtilities;
+
 import componenti.Ambiente;
 import componenti.UserAccount;
 import exceptions.NullException;
@@ -115,8 +118,20 @@ public class CreateAmbientServlet extends HttpServlet {
 		// If everything nice.
 		// Redirect to the ambient listing page.
 		else {
-			response.sendRedirect(request.getContextPath() + "/ambientList");
-		}	
+			DefaultHTTPUtilities utilities = new DefaultHTTPUtilities();
+			String path = request.getContextPath() + "/ambientList";
+			sendRedirect(utilities, path);
+			//response.sendRedirect(path);
+		}
+	}
+	
+	public void sendRedirect(DefaultHTTPUtilities utilities, String path) throws IOException {
+		try {
+			utilities.sendRedirect(path);
+		} catch (AccessControlException e) {
+			
+			System.out.println("Errore");
+		}
 	}
 	
 	public void addUserNotAdmin(UserAccount user, Connection conn) {

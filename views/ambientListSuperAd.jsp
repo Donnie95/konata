@@ -4,6 +4,7 @@
 <!DOCTYPE html>  
 
 <html>
+<%--AmbientListSuperAd --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Lista Ambienti</title>

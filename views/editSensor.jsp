@@ -4,6 +4,7 @@
 <!DOCTYPE html> 
 
 <html>
+<%--editSensor --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Modifica Sensore</title>

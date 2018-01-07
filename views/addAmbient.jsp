@@ -4,6 +4,7 @@
 <!DOCTYPE html> 
 
 <html>
+<%--addAmbient --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Aggiungi Ambiente</title>

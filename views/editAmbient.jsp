@@ -4,6 +4,7 @@
 <!DOCTYPE html> 
 
 <html>
+<%--editAmbient --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Modifica Ambiente</title>

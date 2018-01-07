@@ -4,6 +4,7 @@
 <!DOCTYPE html>  
 
 <html>
+<%--summary --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Sintesi</title>

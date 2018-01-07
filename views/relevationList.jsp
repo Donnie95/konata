@@ -4,6 +4,7 @@
 <!DOCTYPE html>  
 
 <html>
+<%--relevationList --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Lista Rilevazioni</title>

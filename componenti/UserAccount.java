@@ -18,6 +18,11 @@ public class UserAccount {
 		this.userName = Name;
 	}
 	
+	public UserAccount(String Name, String Password) {
+		this.userName = Name;
+		this.password = Password;
+	}
+	
 	public int getAmbientID() {
 		return ambientID;
 	}

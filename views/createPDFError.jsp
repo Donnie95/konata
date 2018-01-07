@@ -1,5 +1,10 @@
+<%@ page language="java" contentType="text/html"
+    pageEncoding="UTF-8"%>
+<%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html> 
 
 <html>
+<%--createPDFError --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Create PDF</title>
@@ -9,6 +14,7 @@
 	</head>
 	
 	<body>
+	
 		<jsp:include page = "_header.jsp"></jsp:include>
 		
 		<h3>Create PDF</h3>

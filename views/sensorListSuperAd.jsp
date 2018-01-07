@@ -4,6 +4,7 @@
 <!DOCTYPE html>  
 
 <html>
+<%--sensorListSuperAdmin --%>
 	<head>
 		<meta charset = "UTF-8">
 		<title>Lista Sensori</title>

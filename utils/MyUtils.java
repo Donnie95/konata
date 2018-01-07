@@ -85,13 +85,19 @@ public class MyUtils {
 	}
 	
 	// Store user info in Session.
-	public static void storeLoginedUser(HttpSession session, UserAccount loginedUser) {
+	public static void storeLoginedUser(HttpSession session, String nome, String chiave) {
 		// On the JSP can access via ${loginedUser}
-		if(loginedUser != null)
-			session.setAttribute("loginedUser", loginedUser);
+		if(nome != null && chiave != null && nome.matches("[0-9a-zA-Z_]+") && chiave.matches("[0-9a-zA-Z_]+"))
+			session.setAttribute("loginedUser", new UserAccount(nome, chiave));
 		else
 			System.out.println();
 	}
+	
+	/*public static void storeLoginedUser(HttpSession session, UserAccount loginedUser) {
+		// On the JSP can access via ${loginedUser}
+		session.setAttribute("loginedUser", loginedUser);
+		
+	}*/
 	
 	// Get the user information stored in the session.
 	public static UserAccount getLoginedUser(HttpSession session) {

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.esapi.errors.AccessControlException;
+import org.owasp.esapi.reference.DefaultHTTPUtilities;
+
 import componenti.UserAccount;
 import utils.DBUtils;
 import utils.MyUtils;
@@ -64,9 +67,7 @@ public class AddAmbientServlet extends HttpServlet {
 		String errorString = null;
 
 		String ambient = (String) request.getParameter("selAmb");
-		//username = (String) request.getParameter("username");
-
-		System.out.println(username);
+		username = (String) request.getParameter("username");
 		
 		int amb = Integer.parseInt(ambient);
 		
@@ -111,8 +112,19 @@ public class AddAmbientServlet extends HttpServlet {
 		// If everything nice.
 		// Redirect to the ambient listing page.
 		else {
-			response.sendRedirect(request.getContextPath() + "/userList");
-		}	
+			DefaultHTTPUtilities utilities = new DefaultHTTPUtilities();
+			String path = request.getContextPath() + "/userList";
+			sendRedirect(utilities, path);
+			//response.sendRedirect(path);
+		}
+	}
+	public void sendRedirect(DefaultHTTPUtilities utilities, String path) throws IOException {
+		try {
+			utilities.sendRedirect(path);
+		} catch (AccessControlException e) {
+			
+			System.out.println("Errore");
+		}
 	}
 }
 
